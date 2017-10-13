@@ -1,5 +1,5 @@
 import random
-import typing
+from typing import List, Callable
 import unittest
 
 
@@ -10,9 +10,9 @@ class Perceptron:
 
     def __init__(self,
                  dimension: int,
-                 weights: typing.List[float] = None,
+                 weights: List[float] = None,
                  learning_rate: float = 0.1,
-                 activation: typing.Callable[[float], float] = None) -> None:
+                 activation: Callable[[float], float] = None) -> None:
         """
         Initialize a Perceptron with specific dimension, learning rate and
         activation function.
@@ -27,7 +27,7 @@ class Perceptron:
         if weights is None:
             self.__weight__ = [random.uniform(0, 1) for _ in range(dimension)]
         else:
-            assert len(weights) == dimension
+            assert len(weights) == self.__dimension__
             self.__weight__ = weights
 
         self.__eta__ = learning_rate
@@ -41,50 +41,51 @@ class Perceptron:
         self.__output__ = None
         self.__label__ = None
 
-    def training_rule(self, w, eta, delta, x):
-        return w + eta * delta * x
-
-    def train_instance(self, data_instance: typing.List[float]) -> None:
+    def train_instance(self, data_instance: List[float]) -> None:
         assert len(data_instance) == self.__dimension__
 
         self.__label__ = data_instance[-1]
-        data = [1.] + data_instance[:-1]
+        inputs = [1.] + data_instance[:-1]
 
-        self.compute_output(data)
+        self.compute_output(inputs)
+        self.compute_delta(self.__label__ - self.__output__)
+        self.update_weight(inputs)
 
-        self.compute_delta()
-        self.update_weight(data)
-
-    def compute_output(self, data):
-        net = self.compute_net(data)
+    def compute_output(self, inputs) -> float:
+        net = sum([a * b for a, b in zip(inputs, self.__weight__)])
         self.__output__ = self.__activation__(net)
+        return self.__output__
 
-    def compute_delta(self, inputs):
-        self.__delta__ = self.__label__ - self.__output__
+    def compute_delta(self, inputs) -> float:
+        self.__delta__ = inputs
+        return self.__delta__
 
-    def update_weight(self, data) -> None:
-        self.__weight__ = [(lambda w, e, d, x: w + e * d * x)(w,
-                                                              self.__eta__,
-                                                              self.__delta__,
-                                                              x)
-                           for w, x in zip(self.__weight__, data)]
+    def update_weight(self, inputs) -> None:
+        self.__weight__ = [w + self.eta * self.delta * x
+                           for w, x in zip(self.__weight__, inputs)]
 
-    def compute_net(self, attributes: typing.List[float]) -> float:
+    def compute_net(self, attributes: List[float]) -> float:
         return sum([a * b for a, b in zip(attributes + [1], self.__weight__)])
 
     @property
-    def get_weights(self) -> typing.List[float]:
+    def delta(self) -> float:
+        return self.__delta__
+
+    @property
+    def eta(self) -> float:
+        return self.__eta__
+
+    @property
+    def weights(self) -> List[float]:
         return self.__weight__
 
     @property
-    def get_weight_delta(self) -> typing.List[float]:
+    def weight_delta(self) -> List[float]:
         return [self.__delta__ * w for w in self.__weight__]
 
-    def get_output(self) -> float:
+    @property
+    def output(self) -> float:
         return self.__output__
-
-    def get_delta(self):
-        return self.__delta__
 
     def __str__(self) -> str:
         return self.__weight__.__str__()
@@ -98,16 +99,16 @@ class TestPerceptron(unittest.TestCase):
         print(p)
 
     def test_training_instance(self) -> None:
-        p = Perceptron(3, [-2., 1., 2.], 0.5)
+        p = Perceptron(2, [-2., 1., 2.], 0.5)
 
         p.train_instance([0.5, 1.5, 1])
-        self.assertEqual(p.get_weights, [-2., 1., 2.])
+        self.assertEqual(p.weights, [-2., 1., 2.])
 
         p.train_instance([-0.5, 0.5, -1])
-        self.assertEqual(p.get_weights, [-2., 1., 2.])
+        self.assertEqual(p.weights, [-2., 1., 2.])
 
         p.train_instance([0.5, 0.5, 1])
-        self.assertEqual(p.get_weights, [-1., 1.5, 2.5])
+        self.assertEqual(p.weights, [-1., 1.5, 2.5])
 
 
 if __name__ == '__main__':

@@ -1,120 +1,59 @@
-from Perceptron import Perceptron
-import typing
+import unittest
 from functools import reduce
+from math import exp
+from typing import List, Callable
 
-
-class OutputUnit(Perceptron):
-    def __init__(self,
-                 dimension: int,
-                 weights: typing.List[float] = None,
-                 learning_rate: float = 0.1,
-                 activation: typing.Callable[[float], float] = None) -> None:
-        super().__init__(dimension, weights, learning_rate, activation)
-
-    def compute_delta(self, inputs):
-        self.__delta__ = self.__output__ * (1 - self.__output__) * inputs
-        pass
-
-    def set_label(self, label):
-        self.__label__ = label
-
-
-class HiddenUnit(Perceptron):
-    def __init__(self,
-                 dimension: int,
-                 weights: typing.List[float] = None,
-                 learning_rate: float = 0.1,
-                 activation: typing.Callable[[float], float] = None) -> None:
-        super().__init__(dimension, weights, learning_rate, activation)
-
-    def compute_delta(self, inputs):
-        self.__delta__ = self.__output__ * (1 - self.__output__) * inputs
-        pass
+from Perceptron import Perceptron
 
 
 class Layer:
-    __neurons__ = None
-
-    def __init__(self,
-                 dimension: int,
-                 previous_dimension:int,
-                 unit_type:typing.Type[Perceptron]) -> None:
+    def __init__(self, dimension: int, previous_layer_dimension: int) -> None:
         self.__dimension__ = dimension
-        self.__neurons__ = [unit_type(previous_dimension) for _ in
+        self.__neurons__ = [Perceptron(previous_layer_dimension) for _ in
                             range(dimension)]
+        self.__inputs__ = None
 
-    def backward(self, downstream: typing.List[float]):
-        s = sum(downstream)
-        for p in self.__neurons__:
-            p.compute_delta(s)
+    def backward(self, downstream: List[float]):
+        for p, d in zip(self.__neurons__, downstream):
+            p.compute_delta(d)
         return self.get_weight_deltas()
 
-    def set_label(self, labels):
-        for neuron, label in zip(self.__neurons__, labels):
-            neuron.set_label(label)
-
-    def get_outputs(self):
-        return [n.get_output() for n in self.__neurons__]
-
-    def forward(self, input_values):
-        data = [1.] + input_values
-        for neuron in self.__neurons__:
-            neuron.compute_output(data)
-        return self.get_outputs()
+    def forward(self, inputs):
+        self.__inputs__ = [1.] + inputs
+        return [neuron.compute_output(self.__inputs__)
+                for neuron in self.__neurons__]
 
     def get_weight_deltas(self):
         return reduce(lambda a, b: [x + y for x, y in zip(a, b)],
-                      [n.get_weight_delta for n in self.__neurons__])
-
-
-class OutputLayer:
-    pass
-
-class HiddenLayer:
-    def __init__(self, dimension, previous_dimension) -> None:
-        self.__dimension__ = dimension
-        self.__neurons__ = [HiddenUnit(previous_dimension) for _ in
-                            range(dimension)]
-
-    def backward(self, downstream: typing.List[float]):
-        s = sum(downstream)
-        for p in self.__neurons__:
-            p.compute_delta(s)
-        return self.get_weight_deltas()
-
-    def forward(self, input_values):
-        self.__data__ = [1.] + input_values
-        for neuron in self.__neurons__:
-            neuron.compute_output(self.__data__)
-        return self.get_outputs()
-
-    def get_outputs(self):
-        return [n.get_output() for n in self.__neurons__]
-
-    def get_weight_deltas(self):
-        return reduce(lambda a, b: [x + y for x, y in zip(a, b)],
-                      [n.get_weight_delta for n in self.__neurons__])
+                      [n.weight_delta for n in self.__neurons__])
 
     def update_weights(self):
         for neuron in self.__neurons__:
-            neuron.update_weight(self.__data__)
+            neuron.update_weight(self.__inputs__)
+
+    @property
+    def inputs(self):
+        return self.__inputs__
 
 
 class NeuralNetwork:
+    @staticmethod
+    def sigmoid(x: float) -> float:
+        return 1 / (1 + exp(-x))
+
     def __init__(self,
                  iteration: int,
                  layers: int,
                  input_count: int,
                  label_count: int,
-                 neurons: typing.List[int]) -> None:
+                 neurons: List[int],
+                 activation: Callable[[float], float] = sigmoid) -> None:
         self.__iteration__ = iteration
         self.__layer_num__ = layers + 1
         self.__label_count__ = label_count
-        self.__layers__ = [HiddenLayer(c, p) for c, p in
+        self.__layers__ = [Layer(c, p) for c, p in
                            zip(neurons, [input_count] + neurons)]
-        self.__layers__ += [OutputLayer(label_count, neurons[-1])]
-
-        l = Layer(1,2, HiddenUnit)
+        self.__layers__ += [Layer(label_count, neurons[-1])]
 
     def train_instance(self, instance):
         label = instance[-1]
@@ -131,3 +70,16 @@ class NeuralNetwork:
 
         for layer in self.__layers__[::-1]:
             ss = layer.backward(ss)
+
+
+class TestNeuralNetwork(unittest.TestCase):
+    """ This class is for testing the function of NeuralNetwork class. """
+
+    def test_training_instance(self) -> None:
+        nn = NeuralNetwork(200, 3, 2, 2, [3, 2, 1])
+
+        nn.train_instance([1, 0, 1])
+
+
+if __name__ == '__main__':
+    unittest.main()
