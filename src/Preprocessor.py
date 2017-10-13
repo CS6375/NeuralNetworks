@@ -7,7 +7,6 @@ class Preprocessor:
     __NaN__ = ['?', 'NaN']
 
     def __init__(self, nan=None) -> None:
-        super().__init__()
         if nan is not None:
             self.__NaN__ += nan
 
