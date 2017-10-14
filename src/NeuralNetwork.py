@@ -1,6 +1,6 @@
 import unittest
 from functools import reduce
-from typing import List, Callable
+from typing import List, Callable, Tuple
 
 import Math
 from Perceptron import Perceptron
@@ -115,7 +115,7 @@ class NeuralNetwork:
         self.__activation__ = activation
         self.__activation_partial__ = Math.partial(self.__activation__)
 
-    def train_instance(self, instance) -> None:
+    def __train_instance__(self, instance) -> None:
         """
         Train the neural network with one instance.
         :param instance: Training instance, should be a List of values with
@@ -153,7 +153,7 @@ class NeuralNetwork:
         for layer in self.__layers__:
             layer.update_weights()
 
-    def test_instance(self, instance) -> bool:
+    def __test_instance__(self, instance) -> bool:
         label = int(instance[-1])
 
         inputs = instance[:-1]
@@ -163,15 +163,20 @@ class NeuralNetwork:
 
         return label == inputs.index(max(inputs))
 
-    def train(self, instances) -> None:
-        for _ in range(self.__iteration__):
+    def train(self, instances) -> Tuple[int, float]:
+        test_rate = 0.0
+        for i in range(self.__iteration__):
             for instance in instances:
-                self.train_instance(instance)
+                self.__train_instance__(instance)
+            test_rate = self.test(instances)
+            if test_rate > 0.99:
+                return i, test_rate
+        return self.__iteration__, test_rate
 
     def test(self, instances) -> float:
         positive = 0
         for instance in instances:
-            if self.test_instance(instance):
+            if self.__test_instance__(instance):
                 positive += 1
         return positive / len(instances)
 
@@ -199,7 +204,7 @@ class TestNeuralNetwork(unittest.TestCase):
     #
     #     print(nn)
     #
-    #     nn.train_instance([1, 0, 1, 1])
+    #     nn.__train_instance__([1, 0, 1, 1])
     #
     #     print(nn)
 
@@ -214,7 +219,7 @@ class TestNeuralNetwork(unittest.TestCase):
 
         # print(train_data_m[0])
 
-        nn = NeuralNetwork(iteration=200,
+        nn = NeuralNetwork(iteration=2,
                            input_count=14,
                            label_count=2,
                            hidden_layers=5,
