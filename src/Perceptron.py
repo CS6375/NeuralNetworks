@@ -1,18 +1,17 @@
 import random
-from typing import List, Callable
 import unittest
+from typing import List, Callable
+
+import Math
 
 
 class Perceptron:
-    @staticmethod
-    def __default_activation__(x):
-        return 1 if x >= 0 else -1
-
     def __init__(self,
                  dimension: int,
                  weights: List[float] = None,
                  learning_rate: float = 0.1,
-                 activation: Callable[[float], float] = None) -> None:
+                 activation: Callable[[float], float] = Math.sign,
+                 ) -> None:
         """
         Initialize a Perceptron with specific dimension, learning rate and
         activation function.
@@ -32,23 +31,20 @@ class Perceptron:
 
         self.__eta__ = learning_rate
 
-        if activation is None:
-            self.__activation__ = self.__default_activation__
-        else:
-            self.__activation__ = activation
+        self.__activation__ = activation
+        self.__activation_partial__ = Math.partial(self.__activation__)
 
-        self.__delta__ = None
-        self.__output__ = None
-        self.__label__ = None
+        self.__delta__ = 0.0
+        self.__output__ = 0.0
 
     def train_instance(self, data_instance: List[float]) -> None:
         assert len(data_instance) == self.__dimension__
 
-        self.__label__ = data_instance[-1]
+        label = data_instance[-1]
         inputs = [1.] + data_instance[:-1]
 
         self.compute_output(inputs)
-        self.compute_delta(self.__label__ - self.__output__)
+        self.compute_delta(label - self.__output__)
         self.update_weight(inputs)
 
     def compute_output(self, inputs) -> float:
@@ -57,7 +53,7 @@ class Perceptron:
         return self.__output__
 
     def compute_delta(self, inputs) -> float:
-        self.__delta__ = inputs
+        self.__delta__ = self.__activation_partial__(inputs)
         return self.__delta__
 
     def update_weight(self, inputs) -> None:

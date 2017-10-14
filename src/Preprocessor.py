@@ -4,7 +4,7 @@ import pandas as pd
 
 
 class Preprocessor:
-    __NaN__ = ['?', 'NaN']
+    __NaN__ = [' ?', 'NaN']
 
     def __init__(self, nan=None) -> None:
         if nan is not None:
@@ -23,7 +23,8 @@ class Preprocessor:
         df = pd.read_csv(input_data,
                          header=None,
                          names=names,
-                         na_values=self.__NaN__)
+                         na_values=self.__NaN__,
+                         engine='python')
 
         # Drop row with any NaN value.
         df = df.dropna(how='any')
