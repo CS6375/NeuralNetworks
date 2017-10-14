@@ -57,7 +57,7 @@ class Perceptron:
         return self.__delta__
 
     def update_weight(self, inputs) -> None:
-        self.__weight__ = [w + self.eta * self.delta * x
+        self.__weight__ = [w + self.eta * self.__delta__ * x
                            for w, x in zip(self.__weight__, inputs)]
 
     def compute_net(self, attributes: List[float]) -> float:
