@@ -10,78 +10,146 @@ class Layer:
     def __init__(self, dimension: int, previous_layer_dimension: int,
                  activation: Callable[[float], float],
                  weights: List[List[float]] = None) -> None:
+        """
+        Initialize a layer in the Neural Network with specified dimension (
+        i.e., number of neuron of current layer), previous layer dimension (
+        i.e., number of inputs), activation function and optional weights for
+        each neuron.
+        :param dimension: Number of neuron of current layer.
+        :param previous_layer_dimension: Number of inputs of current layer.
+        :param activation: Activation function.
+        :param weights: Optional weight.
+        """
         self.__dimension__ = dimension
+
         if weights is None:
             weights = [None] * dimension
+
+        assert len(weights) == dimension
+
         self.__neurons__ = [Perceptron(dimension=previous_layer_dimension,
                                        activation=activation,
                                        weights=weights[i])
                             for i in range(dimension)]
         self.__inputs__ = None
 
-    def backward(self, downstream: List[float]):
+    def backward(self, downstream: List[float]) -> List[float]:
+        """
+        Based on given downstream (weight * delta) sum, let each neuron compute
+        its own delta. And then compute and return all the (weight * delta)
+        sum of this layer.
+        :param downstream: List of downstream (weight * delta) sum for each
+        neurons.
+        :return: List of (weight * delta) sum of this layer.
+        """
+
+        # The length of downstream input should be the same as neuron number.
+        assert len(self.__neurons__) == len(downstream)
+
         for p, d in zip(self.__neurons__, downstream):
             p.compute_delta(d)
         return reduce(lambda a, b: [x + y for x, y in zip(a, b)],
                       [n.weight_delta for n in self.__neurons__])
 
-    def forward(self, inputs):
-        self.__inputs__ = [1.] + inputs
+    def forward(self, inputs: List[float]) -> List[float]:
+        """
+        Store the given inputs and let each neuron compute its output. And
+        return all the computed output in this layer.
+        :param inputs: List of input values to neurons in this layer.
+        :return: List of output values of neurons in this layer after feeding
+        the inputs.
+        """
+        self.__inputs__ = inputs
         return [neuron.compute_output(self.__inputs__)
                 for neuron in self.__neurons__]
 
-    def update_weights(self):
+    def update_weights(self) -> None:
+        """
+        Let each neuron update its weight based on previously computed delta.
+        :return: None
+        """
         for neuron in self.__neurons__:
             neuron.update_weight(self.__inputs__)
-
-    @property
-    def inputs(self):
-        return self.__inputs__
 
 
 class NeuralNetwork:
     def __init__(self,
                  iteration: int,
-                 layers: int,
                  input_count: int,
                  label_count: int,
+                 hidden_layers: int,
                  neurons: List[int],
+                 learning_rate: float = 0.1,
                  activation: Callable[[float], float] = Math.sigmoid,
                  weights: List[List[List[float]]] = None) -> None:
         """
-
-        :param iteration:
-        :param layers: 
-        :param input_count:
-        :param label_count:
-        :param neurons:
-        :param activation:
-        :param weights:
+        Initialize a Neural Network with specific max-iteration, number of
+        inputs and labels, number of hidden layers and number of neuron for
+        each hidden layer.
+        If specified, learning rate activation function for each neuron and
+        initial weights can be specified, but are considered optional.
+        :param iteration: maximum number of iterations to perform.
+        :param input_count: Number of inputs.
+        :param label_count: Number of labels.
+        :param hidden_layers: Number of hidden layers.
+        :param neurons: List of neuron numbers for each hidden layers.
+        :param learning_rate: Learning rate with default value of 0.1.
+        :param activation: Activation function with default value of sigmoid
+        function.
+        :param weights: Initial weights for all neurons. Required format is
+        List[List[List[float]]], which each element indicated a list of
+        weights list of each neurons in a layers. Default value is None,
+        indicating random generated weight is used.
         """
         self.__iteration__ = iteration
-        self.__layer_num__ = layers + 1
+        self.__layer_num__ = hidden_layers + 1
         self.__label_count__ = label_count
         neurons.append(label_count)
+
+        assert len(neurons) == self.__layer_num__
+
         if weights is None:
-            weights = [None] * layers
+            weights = [None] * self.__layer_num__
         self.__layers__ = [Layer(c, p, activation, weights[i]) for i, (c, p) in
                            enumerate(zip(neurons, [input_count] + neurons))]
+        self.__activation__ = activation
+        self.__activation_partial__ = Math.partial(self.__activation__)
 
     def train_instance(self, instance) -> None:
+        """
+        Train the neural network with one instance.
+        :param instance: Training instance, should be a List of values with
+        last value as label.
+        :return: None
+        """
+
+        # Extract the label from input instance.
         label = int(instance[-1])
+        # Create binary representation of extracted label.
         labels = [0 for _ in range(self.__label_count__)]
         labels[label] = 1
 
+        # Extract the inputs values from input instance.
         inputs = instance[:-1]
 
+        # Feed the first layer with extracted inputs. After computing output,
+        # iteratively feed each layer's output to its next layer. After
+        # iteration finished,  ``inputs`` stores the final output value of the
+        # output layer.
         for layer in self.__layers__:
             inputs = layer.forward(inputs)
 
-        deltas = [target - output for target, output in zip(labels, inputs)]
+        # Compute the Backpropagation inputs. Specifically, for output layer,
+        #  the input is the different of label and output.
+        inputs = [target - output for target, output in zip(labels, inputs)]
 
+        # Feed the input just computed to each layer backward. After
+        # computing delta, iteratively feed each layer's delta and weight sum
+        # to its previous layer.
         for layer in self.__layers__[::-1]:
-            deltas = layer.backward(deltas)
+            inputs = layer.backward(inputs)
 
+        # Update weights in each layer.
         for layer in self.__layers__:
             layer.update_weights()
 
@@ -119,38 +187,58 @@ class NeuralNetwork:
 class TestNeuralNetwork(unittest.TestCase):
     """ This class is for testing the function of NeuralNetwork class. """
 
-    def test_train_instance(self) -> None:
-        nn = NeuralNetwork(200, 2, 3, 2, [2, 1],
-                           weights=[[[-0.4, 0.2, 0.4, 0.1],
-                                     [0.2, -0.5, -0.3, -0.2]],
-                                    [[0.1, -0.3, -0.2]]])
+    # def test_train_instance(self) -> None:
+    #     nn = NeuralNetwork(iteration=200,
+    #                        input_count=3,
+    #                        label_count=2,
+    #                        hidden_layers=1,
+    #                        neurons=[2],
+    #                        weights=[[[-0.4, 0.2, 0.4, 0.1],
+    #                                  [0.2, -0.5, -0.3, -0.2]],
+    #                                 [[0.1, -0.3, -0.2], [1., 1., 1.]]])
+    #
+    #     print(nn)
+    #
+    #     nn.train_instance([1, 0, 1, 1])
+    #
+    #     print(nn)
 
-        print(nn)
-
-        nn.train_instance([1, 0, 1])
-
-        print(nn)
-
-    def test_test_instance(self) -> None:
-        nn = NeuralNetwork(200, 3, 3, 2, [3, 2, 1])
-        nn.train_instance([1, 0, 1])
-        nn.test_instance([2, 1, 2])
+    # def test_test_instance(self) -> None:
+    #     pass
 
     def test_test(self) -> None:
-        # nn = NeuralNetwork(200, 5, 14, 2, [14,14,14,14,14])
-        # import pandas as pd
-        # train_data = pd.read_csv('../adult.csv')
-        # nn.train(train_data.as_matrix())
-        # print(nn.test(train_data.as_matrix()))
+        import pandas as pd
+        train_data = pd.read_csv('../adult.csv')
 
-        # nn = NeuralNetwork(200, 5, 4, 3, [4,4,4,4,4])
+        train_data_m = train_data.as_matrix()
+
+        # print(train_data_m[0])
+
+        nn = NeuralNetwork(iteration=200,
+                           input_count=14,
+                           label_count=2,
+                           hidden_layers=5,
+                           neurons=[10, 10, 10, 10, 10])
+        print(nn)
+
+        nn.train(train_data_m)
+
+        print(nn)
+
+        print(nn.test(train_data_m))
+
+        # nn = NeuralNetwork(iteration=2000,
+        #                    input_count=4,
+        #                    label_count=3,
+        #                    hidden_layers=5,
+        #                    neurons=[4, 4, 4, 4, 4])
         # print(nn)
         # import pandas as pd
         # train_data = pd.read_csv('../iris.csv')
         # nn.train(train_data.as_matrix())
         # print(nn.test(train_data.as_matrix()))
         # print(nn)
-        pass
+        # pass
 
 
 if __name__ == '__main__':

@@ -15,25 +15,31 @@ class Perceptron:
         """
         Initialize a Perceptron with specific dimension, learning rate and
         activation function.
-        :param dimension: dimension of data, excluding bias
-        :param weights: specific weights of all input. If not specify,
-        random generated weights are used.
+        :param dimension: dimension of input data, excluding bias
+        :param weights: specific weights of all input, including the weight
+        for bias. If not specify, random generated weights are used.
+        Note that, the weights should be generated randomly. This parameter
+        is used for verifying, since specific weight values are easy to debug.
         :param learning_rate: learning rate of the Perceptron. Default 0.1
         :param activation: activation function, default sign().
         """
         self.__dimension__ = dimension + 1
 
         if weights is None:
-            self.__weight__ = [random.uniform(0, 1) for _ in range(dimension)]
+            self.__weight__ = [random.uniform(-0.05, 0.05)
+                               for _ in range(self.__dimension__)]
         else:
+            # If weights are specified, it should include the initial weight
+            # for bias.
             assert len(weights) == self.__dimension__
             self.__weight__ = weights
 
-        self.__eta__ = learning_rate
+        self.__learning_rate__ = learning_rate
 
         self.__activation__ = activation
         self.__activation_partial__ = Math.partial(self.__activation__)
 
+        self.__bias__ = 1.0
         self.__delta__ = 0.0
         self.__output__ = 0.0
 
@@ -48,17 +54,46 @@ class Perceptron:
         self.update_weight(inputs)
 
     def compute_output(self, inputs) -> float:
-        net = sum([a * b for a, b in zip(inputs, self.__weight__)])
+        """
+        Add bias to inputs, compute output through net and activation
+        function, store and return the outputs.
+        :param inputs: list of input of current Perceptron.
+        :return: output computed.
+        """
+
+        # First add constant bias in front of inputs values.
+        inputs_with_bias = [self.__bias__] + list(inputs)
+
+        # Summing up the product of each weight and input, including bias.
+        net = sum([a * b for a, b in zip(inputs_with_bias, self.__weight__)])
+
+        # Apply the activation function and store the output values.
         self.__output__ = self.__activation__(net)
+
+        # Return the output.
         return self.__output__
 
     def compute_delta(self, inputs) -> float:
-        self.__delta__ = self.__activation_partial__(inputs)
+        """
+        Compute delta by multiply inputs with activation_partial(output).
+        :param inputs: Difference made by current Perceptron.
+        :return: Computed delta.
+        """
+        self.__delta__ = self.__activation_partial__(self.__output__) * inputs
         return self.__delta__
 
-    def update_weight(self, inputs) -> None:
+    def update_weight(self, inputs: List[float]) -> None:
+
+        # First add constant bias in front of inputs values.
+        inputs_with_bias = [self.__bias__] + list(inputs)
+
+        # Number of inputs including the bias should be the same as weights
+        # number.
+        assert len(inputs_with_bias) == len(self.__weight__)
+
+        # w = w + eta * delta * x
         self.__weight__ = [w + self.eta * self.__delta__ * x
-                           for w, x in zip(self.__weight__, inputs)]
+                           for w, x in zip(self.__weight__, inputs_with_bias)]
 
     def compute_net(self, attributes: List[float]) -> float:
         return sum([a * b for a, b in zip(attributes + [1], self.__weight__)])
@@ -69,7 +104,7 @@ class Perceptron:
 
     @property
     def eta(self) -> float:
-        return self.__eta__
+        return self.__learning_rate__
 
     @property
     def weights(self) -> List[float]:
@@ -77,7 +112,12 @@ class Perceptron:
 
     @property
     def weight_delta(self) -> List[float]:
-        return [self.__delta__ * w for w in self.__weight__]
+        """
+        Return the list of (weight * delta) for each weight except the first
+        one, i.e., weight for bias (which is used internally).
+        :return:
+        """
+        return [self.__delta__ * w for w in self.__weight__[1:]]
 
     @property
     def output(self) -> float:
