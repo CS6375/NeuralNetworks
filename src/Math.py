@@ -15,8 +15,11 @@ def sign_partial(x):
 __partial_map__[sign] = sign_partial
 
 
-def sigmoid(x: float) -> float:
-    return 1 / (1 + exp(-x))
+def sigmoid(gamma: float) -> float:
+    if gamma < 0:
+        return 1 - 1 / (1 + exp(gamma))
+    else:
+        return 1 / (1 + exp(-gamma))
 
 
 def sigmoid_partial(x: float) -> float:
