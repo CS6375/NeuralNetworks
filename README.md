@@ -100,3 +100,53 @@ each hidden layer.
 -   For output layer, possible number of output label indicates the neurons
     count.
 
+The default learning rate is `0.1` and the exit condition is *99% success rate
+in training set* (i.e., if the neural network can correctly classify 99
+percents of the training instance, it is considered to be converged.)
+
+## Test result
+
+The `NeuralNetwork` was tested on three data sets:
+
+#### [Car Evaluation Data Set](https://archive.ics.uci.edu/ml/datasets/Car+Evaluation)
+
+The best parameters so far were
+
+    python3 NNDriver.py ../data/car.csv 50000 4 6 8 8 6
+
+        Total training iteration executed: 3403
+        Total training error = 0.9413%
+
+        Total test error = 1.4451%
+
+        --- Execution time: 2760.1818130016327 seconds ---
+
+The training stop at `3403` iteration (while max iteration is specified as 50000).
+
+For detailed analysis, refer to [Report for Car Evaluation](./result/car/report.md)
+
+#### [Iris Data Set](https://archive.ics.uci.edu/ml/datasets/Iris)
+
+The best parameters so far were
+
+    python3 NNDriver.py ../data/iris.csv 80 2000 3 4 4 4
+
+        Total training iteration executed: 824 error: 0.8403%%
+        Total training error = 0.8403%
+
+        Total test error = 3.3333%
+
+        --- Execution time: 18.540203094482422 seconds ---
+
+    python3 NNDriver.py ../data/iris.csv 80 2000 3 10 10 10
+
+        Total training iteration executed: 623 error: 0.8403%%
+        Total training error = 0.8403%
+
+        Total test error = 3.3333%
+
+        --- Execution time: 36.852384090423584 seconds ---
+
+Both of which occasionally reach 0% test error.
+
+#### [Census Income Data Set](https://archive.ics.uci.edu/ml/datasets/Census+Income)
