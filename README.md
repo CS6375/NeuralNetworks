@@ -1,6 +1,6 @@
 # NeuralNetworks
 
-The Decision Tree is implemented in Java SE 1.8.
+The Neural Network is implemented in Python 3.6.
 
 ## Structure
 
