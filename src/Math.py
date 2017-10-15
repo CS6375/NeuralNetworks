@@ -1,6 +1,16 @@
+#!/usr/bin/env python
+"""Provides math function used in NeuralNetwork and Perceptron."""
+
 from math import exp
 from typing import Callable
 
+__author__ = "Hanlin He (hxh160630), and Tao Wang (txw162630)"
+__copyright__ = "Copyright 2017, The CS6375 Project"
+__license__ = "Unlicense"
+__version__ = "1.0.0"
+__maintainer__ = "Hanlin He"
+__email__ = "hxh160630@utdallas.edu"
+__status__ = "Development"
 __partial_map__ = dict()
 
 

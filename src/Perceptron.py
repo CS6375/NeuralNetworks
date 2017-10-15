@@ -1,8 +1,28 @@
+#!/usr/bin/env python
+"""Provides Perceptron, classes for linear classifier.
+
+Perceptron is an algorithm for supervised learning of binary classifiers
+(functions that can decide whether an input, represented by a vector of
+numbers, belongs to some specific class or not). It is a type of linear
+classifier, i.e. a classification algorithm that makes its predictions based
+on a linear predictor function combining a set of weights with the feature
+vector. The algorithm allows for online learning, in that it processes
+elements in the training set one at a time.
+"""
+
 import random
 import unittest
 from typing import List, Callable
 
 import Math
+
+__author__ = "Hanlin He (hxh160630), and Tao Wang (txw162630)"
+__copyright__ = "Copyright 2017, The CS6375 Project"
+__license__ = "Unlicense"
+__version__ = "1.0.0"
+__maintainer__ = "Hanlin He"
+__email__ = "hxh160630@utdallas.edu"
+__status__ = "Development"
 
 
 class Perceptron:
@@ -44,6 +64,11 @@ class Perceptron:
         self.__output__ = 0.0
 
     def train_instance(self, data_instance: List[float]) -> None:
+        """
+        Train the perceptron with one instance.
+        :param data_instance: DataSet instance to be trained with.
+        :return: None
+        """
         assert len(data_instance) == self.__dimension__
 
         label = data_instance[-1]
@@ -92,23 +117,8 @@ class Perceptron:
         assert len(inputs_with_bias) == len(self.__weight__)
 
         # w = w + eta * delta * x
-        self.__weight__ = [w + self.eta * self.__delta__ * x
+        self.__weight__ = [w + self.__learning_rate__ * self.__delta__ * x
                            for w, x in zip(self.__weight__, inputs_with_bias)]
-
-    def compute_net(self, attributes: List[float]) -> float:
-        return sum([a * b for a, b in zip(attributes + [1], self.__weight__)])
-
-    @property
-    def delta(self) -> float:
-        return self.__delta__
-
-    @property
-    def eta(self) -> float:
-        return self.__learning_rate__
-
-    @property
-    def weights(self) -> List[float]:
-        return self.__weight__
 
     @property
     def weight_delta(self) -> List[float]:
@@ -119,12 +129,8 @@ class Perceptron:
         """
         return [self.__delta__ * w for w in self.__weight__[1:]]
 
-    @property
-    def output(self) -> float:
-        return self.__output__
-
     def __str__(self) -> str:
-        return self.__weight__.__str__()
+        return str([float('%.4f' % w) for w in self.__weight__])
 
 
 class TestPerceptron(unittest.TestCase):
@@ -138,13 +144,13 @@ class TestPerceptron(unittest.TestCase):
         p = Perceptron(2, [-2., 1., 2.], 0.5)
 
         p.train_instance([0.5, 1.5, 1])
-        self.assertEqual(p.weights, [-2., 1., 2.])
+        self.assertEqual(p.__weight__, [-2., 1., 2.])
 
         p.train_instance([-0.5, 0.5, -1])
-        self.assertEqual(p.weights, [-2., 1., 2.])
+        self.assertEqual(p.__weight__, [-2., 1., 2.])
 
         p.train_instance([0.5, 0.5, 1])
-        self.assertEqual(p.weights, [-1., 1.5, 2.5])
+        self.assertEqual(p.__weight__, [-1., 1.5, 2.5])
 
 
 if __name__ == '__main__':

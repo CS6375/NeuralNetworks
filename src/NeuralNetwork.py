@@ -1,9 +1,23 @@
+#!/usr/bin/env python
+"""Provides NeuralNetwork, classes for artificial neural network classifier.
+
+TO-DO: description
+"""
+
 import unittest
 from functools import reduce
-from typing import List, Callable, Tuple
+from typing import List, Callable, Tuple, Generator
 
 import Math
 from Perceptron import Perceptron
+
+__author__ = "Hanlin He (hxh160630), and Tao Wang (txw162630)"
+__copyright__ = "Copyright 2017, The CS6375 Project"
+__license__ = "Unlicense"
+__version__ = "1.0.0"
+__maintainer__ = "Hanlin He"
+__email__ = "hxh160630@utdallas.edu"
+__status__ = "Development"
 
 
 class Layer:
@@ -154,6 +168,11 @@ class NeuralNetwork:
             layer.update_weights()
 
     def __test_instance__(self, instance) -> bool:
+        """
+        Internal function. Test one data set instance.
+        :param instance: Instance to be tested.
+        :return: True if neural network correctly classify the test instance.
+        """
         label = int(instance[-1])
 
         inputs = instance[:-1]
@@ -163,17 +182,29 @@ class NeuralNetwork:
 
         return label == inputs.index(max(inputs))
 
-    def train(self, instances) -> Tuple[int, float]:
+    def train(self, instances) -> Generator[Tuple[int, float], None, None]:
+        """
+        Train the neural network with given training data set.
+        :param instances: List of training data set instances.
+        :return: A generator of current iteration count and training success
+        rate.
+        """
         test_rate = 0.0
         for i in range(self.__iteration__):
             for instance in instances:
                 self.__train_instance__(instance)
             test_rate = self.test(instances)
+            yield i, test_rate
             if test_rate > 0.99:
-                return i, test_rate
-        return self.__iteration__, test_rate
+                return None
+        yield self.__iteration__, test_rate
 
     def test(self, instances) -> float:
+        """
+        Test the testing data set with trained neural network.
+        :param instances: List of testing data set instances.
+        :return: Success rate in float.
+        """
         positive = 0
         for instance in instances:
             if self.__test_instance__(instance):
@@ -185,39 +216,18 @@ class NeuralNetwork:
         for i, layer in enumerate(self.__layers__):
             ret += 'Layer ' + str(i) + '\n'
             for j, n in enumerate(layer.__neurons__):
-                ret += '\tNeuron ' + str(j) + ' weight: ' + str(n) + '\n'
+                ret += '\tNeuron ' + str(j + 1) + ' weight: ' + str(n) + '\n'
         return ret
 
 
 class TestNeuralNetwork(unittest.TestCase):
     """ This class is for testing the function of NeuralNetwork class. """
 
-    # def test_train_instance(self) -> None:
-    #     nn = NeuralNetwork(iteration=200,
-    #                        input_count=3,
-    #                        label_count=2,
-    #                        hidden_layers=1,
-    #                        neurons=[2],
-    #                        weights=[[[-0.4, 0.2, 0.4, 0.1],
-    #                                  [0.2, -0.5, -0.3, -0.2]],
-    #                                 [[0.1, -0.3, -0.2], [1., 1., 1.]]])
-    #
-    #     print(nn)
-    #
-    #     nn.__train_instance__([1, 0, 1, 1])
-    #
-    #     print(nn)
-
-    # def test_test_instance(self) -> None:
-    #     pass
-
     def test_test(self) -> None:
         import pandas as pd
         train_data = pd.read_csv('../adult.csv')
 
         train_data_m = train_data.as_matrix()
-
-        # print(train_data_m[0])
 
         nn = NeuralNetwork(iteration=2,
                            input_count=14,
@@ -231,19 +241,6 @@ class TestNeuralNetwork(unittest.TestCase):
         print(nn)
 
         print(nn.test(train_data_m))
-
-        # nn = NeuralNetwork(iteration=2000,
-        #                    input_count=4,
-        #                    label_count=3,
-        #                    hidden_layers=5,
-        #                    neurons=[4, 4, 4, 4, 4])
-        # print(nn)
-        # import pandas as pd
-        # train_data = pd.read_csv('../iris.csv')
-        # nn.train(train_data.as_matrix())
-        # print(nn.test(train_data.as_matrix()))
-        # print(nn)
-        # pass
 
 
 if __name__ == '__main__':
