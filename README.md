@@ -8,30 +8,25 @@ The `src` directory has the following structure:
 
     .
     ├── LICENSE
+    ├── README.md
     ├── data
     │   ├── adult.csv
     │   ├── car.csv
     │   └── iris.csv
     ├── result
     │   ├── car.csv_it1000_layer3_3_2_3.txt
+    │   ├── car.csv_it2000_layer3_3_2_3.txt
     │   └── car.csv_it200_layer3_3_2_3.txt
     ├── src
     │   ├── Math.py
     │   ├── NNDriver.py
     │   ├── NeuralNetwork.py
     │   ├── Perceptron.py
-    │   ├── Preprocessor.py
-    │   ├── __pycache__
-    │   │   ├── Math.cpython-36.pyc
-    │   │   ├── NeuralNetwork.cpython-36.pyc
-    │   │   └── Perceptron.cpython-36.pyc
-    │   ├── car45555.txt
-    │   └── iris45555.txt
+    │   └── Preprocessor.py
     └── test
-        ├── a.txt
         └── test.sh
 
-    5 directories, 18 files
+    5 directories, 17 files
     
 
 ## Compilation
