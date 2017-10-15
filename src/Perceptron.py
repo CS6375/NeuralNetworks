@@ -72,7 +72,7 @@ class Perceptron:
         assert len(data_instance) == self.__dimension__
 
         label = data_instance[-1]
-        inputs = [1.] + data_instance[:-1]
+        inputs = data_instance[:-1]
 
         self.compute_output(inputs)
         self.compute_delta(label - self.__output__)

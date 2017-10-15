@@ -142,6 +142,7 @@ class NeuralNetwork:
         # Create binary representation of extracted label.
         labels = [0 for _ in range(self.__label_count__)]
         labels[label] = 1
+        # print(labels)
 
         # Extract the inputs values from input instance.
         inputs = instance[:-1]
@@ -182,7 +183,8 @@ class NeuralNetwork:
 
         return label == inputs.index(max(inputs))
 
-    def train(self, instances) -> Generator[Tuple[int, float], None, None]:
+    def train(self, instances: List) -> Generator[Tuple[int, float],
+                                                  None, None]:
         """
         Train the neural network with given training data set.
         :param instances: List of training data set instances.
@@ -197,7 +199,7 @@ class NeuralNetwork:
             yield i, test_rate
             if test_rate > 0.99:
                 return None
-        yield self.__iteration__, test_rate
+        yield self.__iteration__ - 1, test_rate
 
     def test(self, instances) -> float:
         """
@@ -224,23 +226,54 @@ class TestNeuralNetwork(unittest.TestCase):
     """ This class is for testing the function of NeuralNetwork class. """
 
     def test_test(self) -> None:
-        import pandas as pd
-        train_data = pd.read_csv('../adult.csv')
+        training_data = [[1, 0, 0, 0, 0],
+                         [0, 1, 0, 0, 1],
+                         [0, 0, 1, 0, 2],
+                         [0, 0, 0, 1, 3]]
 
-        train_data_m = train_data.as_matrix()
-
-        nn = NeuralNetwork(iteration=2,
-                           input_count=14,
-                           label_count=2,
-                           hidden_layers=5,
-                           neurons=[10, 10, 10, 10, 10])
+        nn = NeuralNetwork(iteration=100,
+                           input_count=4,
+                           label_count=4,
+                           hidden_layers=1,
+                           neurons=[3],
+                           weights=[[[1, 1, 1, 1, 1], [1, 1, 1, 1, 1],
+                                     [1, 1, 1, 1, 1]],
+                                    [[1, 1, 1, 1],
+                                     [1, 1, 1, 1],
+                                     [1, 1, 1, 1],
+                                     [1, 1, 1, 1]]])
         print(nn)
 
-        nn.train(train_data_m)
+        nn.__test_instance__([1, 0, 0, 0, 0])
+        nn.__test_instance__([0, 1, 0, 0, 1])
+
+        nn.__train_instance__([1, 0, 0, 0, 0])
+        nn.__train_instance__([1, 0, 0, 0, 0])
+        nn.__train_instance__([1, 0, 0, 0, 0])
 
         print(nn)
 
-        print(nn.test(train_data_m))
+        nn.__test_instance__([1, 0, 0, 0, 0])
+        nn.__test_instance__([0, 1, 0, 0, 1])
+
+        nn.__train_instance__([0, 1, 0, 0, 1])
+        nn.__train_instance__([0, 1, 0, 0, 1])
+        nn.__train_instance__([0, 1, 0, 0, 1])
+        nn.__train_instance__([0, 1, 0, 0, 1])
+
+        nn.__test_instance__([1, 0, 0, 0, 0])
+        nn.__test_instance__([0, 1, 0, 0, 1])
+        print(nn)
+
+        # for _ in x:
+        #     pass
+
+        # print(nn)
+        #
+        # print(nn.__test_instance__([1, 0, 0, 0, 0]))
+        # print(nn.__test_instance__([0, 1, 0, 0, 1]))
+        # print(nn.__test_instance__([0, 0, 1, 0, 2]))
+        # print(nn.__test_instance__([0, 0, 0, 1, 3]))
 
 
 if __name__ == '__main__':
