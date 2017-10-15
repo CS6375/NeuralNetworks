@@ -70,10 +70,9 @@ def main():
         # print(actual_iteration)
         actual_iteration = _actual_iteration_ + 1
         test_rate = _test_rate_
-        # stdout.write('Iteration Count: %d. Current training error: %.4f%%
-        # \r' %
-        #              (actual_iteration, (1 - test_rate) * 100))
-        # stdout.flush()
+        stdout.write('Iteration Count: %d. Current training error: %.4f%%\r' %
+                     (actual_iteration, (1 - test_rate) * 100))
+        stdout.flush()
     stdout.write('Total training iteration executed: %d\n' % actual_iteration)
     stdout.flush()
     stdout.write('Total training error = %.4f%% \n' % ((1 - test_rate) * 100))
