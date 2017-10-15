@@ -1,0 +1,30 @@
+Execution: python3 ../src/NNDriver.py ../data/car.csv 80 200 3 3 2 3
+
+Training data set size: 1381 
+Testing data set size: 346 
+
+Total training iteration executed: 200
+Total training error = 29.6162% 
+
+Neural Network model parameter are as follow:
+Layer 0
+	Neuron 1 weight: [1.4847, -0.612, -0.2133, 0.0353, 3.1097, -0.4565, -0.19]
+	Neuron 2 weight: [-1.4919, 0.5773, 0.2245, -0.044, -3.1181, 0.4597, 0.193]
+	Neuron 3 weight: [-0.0494, 0.2846, 0.2603, -0.2951, -0.5852, 0.443, 0.353]
+Layer 1
+	Neuron 1 weight: [0.379, 3.1408, -2.8918, -0.6314]
+	Neuron 2 weight: [0.2763, 2.4176, -2.2688, -0.609]
+Layer 2
+	Neuron 1 weight: [0.918, -2.3811, -1.7618]
+	Neuron 2 weight: [0.7183, -2.2051, -1.6134]
+	Neuron 3 weight: [0.8677, -2.3649, -1.6882]
+Layer 3
+	Neuron 1 weight: [-0.2509, -1.9138, -1.8018, -1.8568]
+	Neuron 2 weight: [-2.561, -1.3046, -1.2744, -1.2368]
+	Neuron 3 weight: [-0.2486, 2.4321, 2.1819, 2.3987]
+	Neuron 4 weight: [-2.5388, -1.3154, -1.3304, -1.3204]
+
+Total test error = 31.5029% 
+
+
+--- Execution time: 36.65606188774109 seconds ---
