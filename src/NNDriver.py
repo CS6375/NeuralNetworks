@@ -2,6 +2,7 @@
 """Provides driver program for NeuralNetwork."""
 
 import random
+import time
 from sys import argv, stdout
 from typing import List, Tuple
 
@@ -60,6 +61,7 @@ def main():
     stdout.write('Training data set size: %d \n' % len(training_set))
     stdout.flush()
     stdout.write('Testing data set size: %d \n\n' % len(testing_set))
+    stdout.flush()
 
     # actual_iteration, test_rate = nn.train(training_set)
     actual_iteration = 0
@@ -85,4 +87,8 @@ def main():
 
 
 if __name__ == '__main__':
+    start_time = time.time()
     main()
+    stdout.write("\n\n--- Execution time: %s seconds ---\n" %
+                 (time.time() - start_time))
+    stdout.flush()
