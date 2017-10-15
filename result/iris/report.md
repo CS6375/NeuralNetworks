@@ -89,3 +89,45 @@ The best parameters so far were:
         --- Execution time: 36.852384090423584 seconds ---
 
 Both of which occasionally reach 0% test error.
+
+### Data Analysis
+
+    iris.csv_it1000_layer3_10_10_10.txt:Total test error = 0.0000%
+    iris.csv_it1000_layer3_3_2_3.txt:Total test error = 3.3333%
+    iris.csv_it1000_layer3_4_4_4.txt:Total test error = 0.0000%
+    iris.csv_it1000_layer4_10_10_10_10.txt:Total test error = 76.6667%
+    iris.csv_it1000_layer4_4_6_6_4.txt:Total test error = 70.0000%
+    iris.csv_it1000_layer4_5_5_5_5.txt:Total test error = 73.3333%
+    iris.csv_it1000_layer4_6_8_8_6.txt:Total test error = 76.6667%
+    iris.csv_it1000_layer8_10_8_8_8_8_8_8_10.txt:Total test error = 76.6667%
+    iris.csv_it1000_layer8_15_10_10_10_10_10_10_15.txt:Total test error = 76.6667%
+    iris.csv_it1000_layer8_6_6_6_6_6_6_6_6.txt:Total test error = 73.3333%
+    iris.csv_it2000_layer3_10_10_10.txt:Total test error = 0.0000%
+    iris.csv_it2000_layer3_3_2_3.txt:Total test error = 3.3333%
+    iris.csv_it2000_layer3_4_4_4.txt:Total test error = 3.3333%
+    iris.csv_it2000_layer4_10_10_10_10.txt:Total test error = 76.6667%
+    iris.csv_it2000_layer4_4_6_6_4.txt:Total test error = 76.6667%
+    iris.csv_it2000_layer4_5_5_5_5.txt:Total test error = 73.3333%
+    iris.csv_it2000_layer4_6_8_8_6.txt:Total test error = 70.0000%
+    iris.csv_it2000_layer8_10_8_8_8_8_8_8_10.txt:Total test error = 73.3333%
+    iris.csv_it2000_layer8_15_10_10_10_10_10_10_15.txt:Total test error = 83.3333%
+    iris.csv_it2000_layer8_6_6_6_6_6_6_6_6.txt:Total test error = 73.3333%
+    iris.csv_it200_layer3_10_10_10.txt:Total test error = 80.0000%
+    iris.csv_it200_layer3_3_2_3.txt:Total test error = 76.6667%
+    iris.csv_it200_layer3_4_4_4.txt:Total test error = 70.0000%
+    iris.csv_it200_layer4_10_10_10_10.txt:Total test error = 83.3333%
+    iris.csv_it200_layer4_4_6_6_4.txt:Total test error = 80.0000%
+    iris.csv_it200_layer4_5_5_5_5.txt:Total test error = 76.6667%
+    iris.csv_it200_layer4_6_8_8_6.txt:Total test error = 80.0000%
+    iris.csv_it200_layer8_10_8_8_8_8_8_8_10.txt:Total test error = 83.3333%
+    iris.csv_it200_layer8_15_10_10_10_10_10_10_15.txt:Total test error = 76.6667%
+    iris.csv_it200_layer8_6_6_6_6_6_6_6_6.txt:Total test error = 66.6667%
+    iris.csv_it8000_layer3_10_10_10.txt:Total test error = 3.3333%
+    iris.csv_it8000_layer3_4_4_4.txt:Total test error = 3.3333%
+    iris.csv_it8000_layer4_10_10_10_10.txt:Total test error = 6.6667%
+    iris.csv_it8000_layer4_4_6_6_4.txt:Total test error = 73.3333%
+    iris.csv_it8000_layer4_5_5_5_5.txt:Total test error = 6.6667%
+    iris.csv_it8000_layer4_6_8_8_6.txt:Total test error = 3.3333%
+    iris.csv_it8000_layer8_10_8_8_8_8_8_8_10.txt:Total test error = 73.3333%
+    iris.csv_it8000_layer8_15_10_10_10_10_10_10_15.txt:Total test error = 80.0000%
+    iris.csv_it8000_layer8_6_6_6_6_6_6_6_6.txt:Total test error = 73.3333%
