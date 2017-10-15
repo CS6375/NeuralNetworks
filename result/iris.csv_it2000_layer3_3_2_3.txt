@@ -1,0 +1,29 @@
+Execution: python3 ../src/NNDriver.py ../data/iris.csv 80 2000 3 3 2 3
+
+Training data set size: 119 
+Testing data set size: 30 
+
+Total training iteration executed: 1233
+Total training error = 0.8403% 
+
+Neural Network model parameter are as follow:
+Layer 0
+	Neuron 1 weight: [-0.1315, 0.4492, 0.3262, -1.2441, -0.7556]
+	Neuron 2 weight: [-0.4282, -0.652, 1.8668, -0.9508, -0.6393]
+	Neuron 3 weight: [2.0483, 0.5312, -0.2955, -2.3027, -1.6131]
+Layer 1
+	Neuron 1 weight: [-3.2325, 2.3941, 2.6814, 2.7446]
+	Neuron 2 weight: [-3.5141, 2.2996, 2.6434, 2.4007]
+Layer 2
+	Neuron 1 weight: [1.522, -3.6266, -3.5403]
+	Neuron 2 weight: [5.8304, -3.8653, -4.1756]
+	Neuron 3 weight: [2.2388, -5.6681, -5.5551]
+Layer 3
+	Neuron 1 weight: [3.0685, -4.5529, -5.9064, -3.9299]
+	Neuron 2 weight: [-2.6092, -1.5404, 5.7397, -5.5236]
+	Neuron 3 weight: [-6.3681, 3.9689, 2.4942, 4.879]
+
+Total test error = 3.3333% 
+
+
+--- Execution time: 19.80443286895752 seconds ---
