@@ -1,4 +1,18 @@
-# Data Set: Iris
+# Iris Data Set Analysis
+
+From the experiments we've conducted, several trends can be concluded:
+
+-   For this data set (only 4 inputs and 3 possible label), small number of
+    layer with small neuron number would be enough.
+
+-   Given the size of the data set (only less than 150 instance), total
+    iteration needed for neural network to converges is at least 600 even for
+    relatively small parameters.
+
+    For example, the best parameters example below requires more than 600 or
+    800 iterations to converge.
+
+### Best Parameters
 
 The best parameters so far were:
 
@@ -90,44 +104,47 @@ The best parameters so far were:
 
 Both of which occasionally reach 0% test error.
 
-### Data Analysis
+### Appendix: List of Results
 
-    iris.csv_it1000_layer3_10_10_10.txt:Total test error = 0.0000%
-    iris.csv_it1000_layer3_3_2_3.txt:Total test error = 3.3333%
-    iris.csv_it1000_layer3_4_4_4.txt:Total test error = 0.0000%
-    iris.csv_it1000_layer4_10_10_10_10.txt:Total test error = 76.6667%
-    iris.csv_it1000_layer4_4_6_6_4.txt:Total test error = 70.0000%
-    iris.csv_it1000_layer4_5_5_5_5.txt:Total test error = 73.3333%
-    iris.csv_it1000_layer4_6_8_8_6.txt:Total test error = 76.6667%
-    iris.csv_it1000_layer8_10_8_8_8_8_8_8_10.txt:Total test error = 76.6667%
-    iris.csv_it1000_layer8_15_10_10_10_10_10_10_15.txt:Total test error = 76.6667%
-    iris.csv_it1000_layer8_6_6_6_6_6_6_6_6.txt:Total test error = 73.3333%
-    iris.csv_it2000_layer3_10_10_10.txt:Total test error = 0.0000%
-    iris.csv_it2000_layer3_3_2_3.txt:Total test error = 3.3333%
-    iris.csv_it2000_layer3_4_4_4.txt:Total test error = 3.3333%
-    iris.csv_it2000_layer4_10_10_10_10.txt:Total test error = 76.6667%
-    iris.csv_it2000_layer4_4_6_6_4.txt:Total test error = 76.6667%
-    iris.csv_it2000_layer4_5_5_5_5.txt:Total test error = 73.3333%
-    iris.csv_it2000_layer4_6_8_8_6.txt:Total test error = 70.0000%
-    iris.csv_it2000_layer8_10_8_8_8_8_8_8_10.txt:Total test error = 73.3333%
-    iris.csv_it2000_layer8_15_10_10_10_10_10_10_15.txt:Total test error = 83.3333%
-    iris.csv_it2000_layer8_6_6_6_6_6_6_6_6.txt:Total test error = 73.3333%
-    iris.csv_it200_layer3_10_10_10.txt:Total test error = 80.0000%
-    iris.csv_it200_layer3_3_2_3.txt:Total test error = 76.6667%
-    iris.csv_it200_layer3_4_4_4.txt:Total test error = 70.0000%
-    iris.csv_it200_layer4_10_10_10_10.txt:Total test error = 83.3333%
-    iris.csv_it200_layer4_4_6_6_4.txt:Total test error = 80.0000%
-    iris.csv_it200_layer4_5_5_5_5.txt:Total test error = 76.6667%
-    iris.csv_it200_layer4_6_8_8_6.txt:Total test error = 80.0000%
-    iris.csv_it200_layer8_10_8_8_8_8_8_8_10.txt:Total test error = 83.3333%
-    iris.csv_it200_layer8_15_10_10_10_10_10_10_15.txt:Total test error = 76.6667%
-    iris.csv_it200_layer8_6_6_6_6_6_6_6_6.txt:Total test error = 66.6667%
-    iris.csv_it8000_layer3_10_10_10.txt:Total test error = 3.3333%
-    iris.csv_it8000_layer3_4_4_4.txt:Total test error = 3.3333%
-    iris.csv_it8000_layer4_10_10_10_10.txt:Total test error = 6.6667%
-    iris.csv_it8000_layer4_4_6_6_4.txt:Total test error = 73.3333%
-    iris.csv_it8000_layer4_5_5_5_5.txt:Total test error = 6.6667%
-    iris.csv_it8000_layer4_6_8_8_6.txt:Total test error = 3.3333%
-    iris.csv_it8000_layer8_10_8_8_8_8_8_8_10.txt:Total test error = 73.3333%
-    iris.csv_it8000_layer8_15_10_10_10_10_10_10_15.txt:Total test error = 80.0000%
-    iris.csv_it8000_layer8_6_6_6_6_6_6_6_6.txt:Total test error = 73.3333%
+    raw
+    ├── iris.csv_it1000_layer3_10_10_10.txt
+    ├── iris.csv_it1000_layer3_3_2_3.txt
+    ├── iris.csv_it1000_layer3_4_4_4.txt
+    ├── iris.csv_it1000_layer4_10_10_10_10.txt
+    ├── iris.csv_it1000_layer4_4_6_6_4.txt
+    ├── iris.csv_it1000_layer4_5_5_5_5.txt
+    ├── iris.csv_it1000_layer4_6_8_8_6.txt
+    ├── iris.csv_it1000_layer8_10_8_8_8_8_8_8_10.txt
+    ├── iris.csv_it1000_layer8_15_10_10_10_10_10_10_15.txt
+    ├── iris.csv_it1000_layer8_6_6_6_6_6_6_6_6.txt
+    ├── iris.csv_it2000_layer3_10_10_10.txt
+    ├── iris.csv_it2000_layer3_3_2_3.txt
+    ├── iris.csv_it2000_layer3_4_4_4.txt
+    ├── iris.csv_it2000_layer4_10_10_10_10.txt
+    ├── iris.csv_it2000_layer4_4_6_6_4.txt
+    ├── iris.csv_it2000_layer4_5_5_5_5.txt
+    ├── iris.csv_it2000_layer4_6_8_8_6.txt
+    ├── iris.csv_it2000_layer8_10_8_8_8_8_8_8_10.txt
+    ├── iris.csv_it2000_layer8_15_10_10_10_10_10_10_15.txt
+    ├── iris.csv_it2000_layer8_6_6_6_6_6_6_6_6.txt
+    ├── iris.csv_it200_layer3_10_10_10.txt
+    ├── iris.csv_it200_layer3_3_2_3.txt
+    ├── iris.csv_it200_layer3_4_4_4.txt
+    ├── iris.csv_it200_layer4_10_10_10_10.txt
+    ├── iris.csv_it200_layer4_4_6_6_4.txt
+    ├── iris.csv_it200_layer4_5_5_5_5.txt
+    ├── iris.csv_it200_layer4_6_8_8_6.txt
+    ├── iris.csv_it200_layer8_10_8_8_8_8_8_8_10.txt
+    ├── iris.csv_it200_layer8_15_10_10_10_10_10_10_15.txt
+    ├── iris.csv_it200_layer8_6_6_6_6_6_6_6_6.txt
+    ├── iris.csv_it8000_layer3_10_10_10.txt
+    ├── iris.csv_it8000_layer3_4_4_4.txt
+    ├── iris.csv_it8000_layer4_10_10_10_10.txt
+    ├── iris.csv_it8000_layer4_4_6_6_4.txt
+    ├── iris.csv_it8000_layer4_5_5_5_5.txt
+    ├── iris.csv_it8000_layer4_6_8_8_6.txt
+    ├── iris.csv_it8000_layer8_10_8_8_8_8_8_8_10.txt
+    ├── iris.csv_it8000_layer8_15_10_10_10_10_10_10_15.txt
+    └── iris.csv_it8000_layer8_6_6_6_6_6_6_6_6.txt
+
+    0 directories, 39 files

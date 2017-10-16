@@ -1,6 +1,6 @@
 # NeuralNetworks
 
-The Neural Network is implemented in Python 3.6.
+The Neural Network implemented in Python.
 
 ## Structure
 
@@ -8,26 +8,21 @@ The `src` directory has the following structure:
 
     .
     ├── LICENSE
-    ├── README.md
+    ├── README.md               # Current file.
     ├── data
-    │   ├── adult.csv
-    │   ├── car.csv
-    │   └── iris.csv
+    │   ├── adult.csv           # Standardize data set for Census Income.
+    │   ├── car.csv             # Standardize data set for Car Evaluation.
+    │   └── iris.csv            # Standardize data set for Iris.
     ├── result
-    │   ├── car.csv_it1000_layer3_3_2_3.txt
-    │   ├── car.csv_it2000_layer3_3_2_3.txt
-    │   └── car.csv_it200_layer3_3_2_3.txt
+    |   └──...                  # Test result and report.
     ├── src
-    │   ├── Math.py
-    │   ├── NNDriver.py
-    │   ├── NeuralNetwork.py
-    │   ├── Perceptron.py
-    │   └── Preprocessor.py
+    │   ├── Math.py             # Math function used in NeuralNetworks.
+    │   ├── NNDriver.py         # Demonstrative driver program.
+    │   ├── NeuralNetwork.py    # NeuralNetwork class implementation.
+    │   ├── Perceptron.py       # Perceptron class implementation, standalone linear classifier.
+    │   └── Preprocessor.py     # Preprocessor implementation.
     └── test
-        └── test.sh
-
-    5 directories, 17 files
-
+        └── test.sh             # Test script.
 
 ## Compilation
 
@@ -123,7 +118,7 @@ The best parameters so far were
 
 The training stop at `3403` iteration (while max iteration is specified as 50000).
 
-For detailed analysis, refer to [Report for Car Evaluation](./result/car/report.md)
+For detailed analysis, refer to [Report for Car Evaluation Data Set](./result/car/report.md)
 
 #### [Iris Data Set](https://archive.ics.uci.edu/ml/datasets/Iris)
 
@@ -149,4 +144,22 @@ The best parameters so far were
 
 Both of which occasionally reach 0% test error.
 
+For detailed analysis, refer to [Report for Iris Data Set](./result/iris/report.md)
+
 #### [Census Income Data Set](https://archive.ics.uci.edu/ml/datasets/Census+Income)
+
+The best parameters so far were
+
+    python3 NNDriver.py ../data/adult.csv 1000 4 5 5 5 5
+
+        Training data set size: 24128 
+        Testing data set size: 6033 
+
+        Total training iteration executed: 1000
+        Total training error = 15.1484% 
+
+        Total test error = 15.3489% 
+
+        --- Execution time: 10910.028629302979 seconds ---
+
+For detailed analysis, refer to [Report for Census Income Data Set](./result/adult/report.md)

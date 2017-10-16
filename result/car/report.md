@@ -1,4 +1,17 @@
-# Data Set: Car
+# Car Evaluation Data Set Analysis
+
+From the experiments we've conducted, several trends can be concluded:
+
+-   For neural network with four layers, normally more than 3000 iterations are
+    needed for the neural network to converges. For example, 4 layers NN with
+    `(6 8 8 6)` and `(10 10 10 10)` neurons both took roughly 3400 iterations
+    to converge (both yield a good test error).
+
+-   Given the size of the data set size (around 1500 instance), it is
+    relatively easy for neural network to train. Even if the network did not
+    converge, sometimes it could have a relatively good test error.
+
+### Best Parameters
 
 The best parameters so far were:
 
@@ -53,3 +66,24 @@ The best parameters so far were:
 
 
         --- Execution time: 2760.1818130016327 seconds ---
+
+### Appendix: List of Results
+
+    raw
+    ├── car_it1000_layer3_10_10_10.txt
+    ├── car_it1000_layer3_3_2_3.txt
+    ├── car_it1000_layer3_4_4_4.txt
+    ├── car_it1000_layer4_4_6_6_4.txt
+    ├── car_it2000_layer3_10_10_10.txt
+    ├── car_it2000_layer3_3_2_3.txt
+    ├── car_it2000_layer3_4_4_4.txt
+    ├── car_it2000_layer4_4_6_6_4.txt
+    ├── car_it200_layer3_10_10_10.txt
+    ├── car_it200_layer3_3_2_3.txt
+    ├── car_it200_layer3_4_4_4.txt
+    ├── car_it200_layer4_4_6_6_4.txt
+    ├── car_it50000_layer3_10_10_10.txt
+    ├── car_it50000_layer4_10_10_10_10.txt
+    └── car_it50000_layer4_6_8_8_6.txt
+
+    0 directories, 15 files
