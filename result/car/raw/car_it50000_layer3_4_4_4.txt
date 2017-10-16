@@ -1,0 +1,32 @@
+Training data set size: 1381 
+Testing data set size: 346 
+
+Total training iteration executed: 50000
+Total training error = 11.0789% 
+
+Neural Network model parameter are as follow:
+Layer 0
+	Neuron 1 weight: [10.9172, 9.6147, -3.0022, 0.1362, 0.0485, -0.1524, -0.4338]
+	Neuron 2 weight: [-15.0063, 5.4995, -8.3621, -0.6358, -29.0969, 0.7773, -2.3601]
+	Neuron 3 weight: [14.4288, 3.6116, -1.0357, -1.3561, -0.6096, 2.7072, -11.844]
+	Neuron 4 weight: [26.5332, 1.848, -0.5871, -7.606, 14.3463, 9.6449, 50.6664]
+Layer 1
+	Neuron 1 weight: [0.0395, 56.2261, -55.295, -1.879, -52.5933]
+	Neuron 2 weight: [1.3235, 13.1256, -5.4559, -1.1221, -25.2238]
+	Neuron 3 weight: [47.1181, 1.1627, -5.3362, -45.8201, -45.9195]
+	Neuron 4 weight: [0.3407, 80.4917, -46.5879, -80.3265, -0.581]
+Layer 2
+	Neuron 1 weight: [45.4228, 0.1321, -20.4992, -21.2381, -23.9494]
+	Neuron 2 weight: [5.8497, 6.3917, -20.6013, -24.1506, 13.9015]
+	Neuron 3 weight: [22.7877, -15.7188, -1.2019, -18.9692, -7.0936]
+	Neuron 4 weight: [10.8215, -6.027, -6.9239, -5.2597, -10.3469]
+Layer 3
+	Neuron 1 weight: [-0.4823, 10.8664, -10.4291, 1.2106, -21.639]
+	Neuron 2 weight: [-1.7944, -10.6499, 12.4976, -3.2332, -10.2084]
+	Neuron 3 weight: [-1.6548, -10.4583, 8.0233, 3.7038, 16.5088]
+	Neuron 4 weight: [-0.7561, -7.8985, -7.6917, -1.9194, -2.7749]
+
+Total test error = 14.4509% 
+
+
+--- Execution time: 21221.502425193787 seconds ---
