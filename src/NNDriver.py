@@ -25,7 +25,7 @@ def split(data_set: List, proportion: float) -> Tuple[List, List]:
     testing set.
     :param data_set: DataSet to split.
     :param proportion: Proportion of training set.
-    :return:
+    :return: Tuple of training and test set.
     """
     random.shuffle(data_set)
     length = len(data_set)

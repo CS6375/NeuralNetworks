@@ -1,8 +1,5 @@
 #!/usr/bin/env python
-"""Provides NeuralNetwork, classes for artificial neural network classifier.
-
-TO-DO: description
-"""
+"""Provides NeuralNetwork, classes for artificial neural network classifier."""
 
 import unittest
 from functools import reduce
@@ -226,11 +223,6 @@ class TestNeuralNetwork(unittest.TestCase):
     """ This class is for testing the function of NeuralNetwork class. """
 
     def test_test(self) -> None:
-        training_data = [[1, 0, 0, 0, 0],
-                         [0, 1, 0, 0, 1],
-                         [0, 0, 1, 0, 2],
-                         [0, 0, 0, 1, 3]]
-
         nn = NeuralNetwork(iteration=100,
                            input_count=4,
                            label_count=4,
@@ -264,16 +256,6 @@ class TestNeuralNetwork(unittest.TestCase):
         nn.__test_instance__([1, 0, 0, 0, 0])
         nn.__test_instance__([0, 1, 0, 0, 1])
         print(nn)
-
-        # for _ in x:
-        #     pass
-
-        # print(nn)
-        #
-        # print(nn.__test_instance__([1, 0, 0, 0, 0]))
-        # print(nn.__test_instance__([0, 1, 0, 0, 1]))
-        # print(nn.__test_instance__([0, 0, 1, 0, 2]))
-        # print(nn.__test_instance__([0, 0, 0, 1, 3]))
 
 
 if __name__ == '__main__':

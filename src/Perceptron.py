@@ -108,6 +108,11 @@ class Perceptron:
         return self.__delta__
 
     def update_weight(self, inputs: List[float]) -> None:
+        """
+        Update weight based on calculated delta and input.
+        :param inputs: Input data of current round.
+        :return: None
+        """
 
         # First add constant bias in front of inputs values.
         inputs_with_bias = [self.__bias__] + list(inputs)

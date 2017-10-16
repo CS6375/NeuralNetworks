@@ -28,10 +28,6 @@ class Preprocessor:
         Pre-process specific data set. First convert all categorical data to
         numeric, and then standardize all column except last one. Assume last
         column is always the label.
-        :param input_data: DataSet to be processed
-        :param output_data:
-        :param names:
-        :return:
         """
         df = pd.read_csv(input_data,
                          header=None,
